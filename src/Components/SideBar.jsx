@@ -40,7 +40,7 @@ export default function SideBar() {
                         <div id="title"
                             className='py-3 text-center font-semibold'>
                             <h1>
-                                Reciepe web app
+                                Recipe web app
                             </h1>
                         </div>
 
@@ -56,7 +56,7 @@ export default function SideBar() {
                         </li>
 
                         <li className="flex items-center">
-                            <Link to="/SearchRecipe" onClick={closeDrawer}>SearchRecipe</Link>
+                            <Link to="/SearchRecipe" onClick={closeDrawer}>Search Recipe</Link>
                         </li>
 
                         <li className="flex items-center">
