@@ -41,9 +41,7 @@ export default function SideBar() {
 
                             <Link to="/DashBoard" onClick={closeDrawer}>Home</Link>
                         </li>
-                        <li className="flex items-center">
-                            <Link to="/RecipeSingleView" onClick={closeDrawer}>RecipeSingleView</Link>
-                        </li>
+
                         <li className="flex items-center">
                             <Link to="/SearchRecipe" onClick={closeDrawer}>SearchRecipe</Link>
                         </li>

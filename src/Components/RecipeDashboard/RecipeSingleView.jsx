@@ -11,6 +11,9 @@ export default function RecipeSingleView() {
         const fetchRecipeById = async () => {
             try {
                 const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch recipe');
+                }
                 const data = await response.json();
                 const fetchedRecipe = {
                     id: data.meals[0].idMeal,
@@ -48,34 +51,39 @@ export default function RecipeSingleView() {
                 }}
             >Back</button>
 
-            <div id="body" className="flex flex-col items-center  mt-0 md:p-8 lg:p-12">
-
-                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">{recipe.title}</h1>
-                <div id="image" className="w-full max-w-3xl mb-4 flex justify-center">
+            <div className="flex flex-col items-center mt-8">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">{recipe.title}</h1>
+                <div className="w-full max-w-3xl mb-4 flex justify-center">
                     <img
                         src={recipe.image}
                         alt={recipe.title}
                         className="w-[22rem] h-[22rem] object-cover rounded-lg shadow-lg"
                     />
                 </div>
-                <div id="buttons" className="w-full max-w-3xl flex justify-between mb-4">
-                    <div id="left" className="flex space-x-2">
-                        {recipe.area && (
+                <div className="w-full max-w-3xl flex justify-between mb-4">
+                    {recipe.area && (
+                        <div className="flex space-x-2">
                             <button className="btn btn-neutral">{recipe.area}</button>
-                        )}
-                    </div>
-                    <div id="right">
+                        </div>
+                    )}
+                    <div>
                         <button className="btn btn-neutral">Add to Favorites</button>
                     </div>
                 </div>
-                <div id="bottom" className="w-full max-w-3xl text-center">
-                    <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold mb-4">Instruction</h1>
-                    <div id="full-Instruction" className="text-left">
-                        <p className="mb-4 text-justify">{recipe.description}</p>
-                        <div className="flex justify-center space-x-4">
-                            <a href={recipe.youtube}><button className="btn btn-error">Youtube</button></a>
-                            <a href={recipe.source}><button className="btn btn-info">Source</button></a>
-                        </div>
+                <div className="w-full max-w-3xl text-center">
+                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-4">Instructions</h2>
+                    <p className="mb-4 text-justify">{recipe.description}</p>
+                    <div className="flex justify-center space-x-4 mb-4">
+                        {recipe.youtube && (
+                            <a href={recipe.youtube} target="_blank" rel="noopener noreferrer">
+                                <button className="btn btn-error">Watch on YouTube</button>
+                            </a>
+                        )}
+                        {recipe.source && (
+                            <a href={recipe.source} target="_blank" rel="noopener noreferrer">
+                                <button className="btn btn-info">View Source</button>
+                            </a>
+                        )}
                     </div>
                 </div>
             </div>

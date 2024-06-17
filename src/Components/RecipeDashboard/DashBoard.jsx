@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import RecipeList from './RecipeList';
 
 export default function Dashboard() {
@@ -8,6 +8,9 @@ export default function Dashboard() {
     const fetchRandomRecipe = async () => {
         try {
             const response = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
+            if (!response.ok) {
+                throw new Error('Failed to fetch random recipe');
+            }
             const data = await response.json();
             const newRecipe = {
                 id: data.meals[0].idMeal,
@@ -21,7 +24,8 @@ export default function Dashboard() {
         }
     };
 
-    const fetchInitialRecipes = useCallback(async () => {
+    const fetchInitialRecipes = async () => {
+        setLoading(true);
         const recipePromises = [];
         for (let i = 0; i < 8; i++) {
             recipePromises.push(fetchRandomRecipe());
@@ -31,26 +35,26 @@ export default function Dashboard() {
             const fetchedRecipes = await Promise.all(recipePromises);
             const filteredRecipes = fetchedRecipes.filter(recipe => recipe !== null);
             setRecipes(filteredRecipes);
-            setLoading(false);
         } catch (error) {
             console.error('Error fetching initial recipes:', error);
+        } finally {
             setLoading(false);
         }
-    }, []);
+    };
 
     useEffect(() => {
         fetchInitialRecipes();
-    }, [fetchInitialRecipes]);
+    }, []);
 
     return (
         <div className='flex flex-col items-center px-5 min-h-screen pt-'>
             <div className='w-full max-w-7xl'>
                 <div className="flex flex-wrap justify-center gap-4 py-5">
-                    <RecipeList
-                        recipes={recipes}
-                        loading={loading}
-                        fetchInitialRecipes={fetchInitialRecipes}
-                    />
+                    {loading ? (
+                        <span className="loading loading-spinner loading-lg"></span>
+                    ) : (
+                        <RecipeList recipes={recipes} loading={loading} />
+                    )}
                 </div>
             </div>
         </div>
