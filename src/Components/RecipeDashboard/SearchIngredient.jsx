@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import RecipeList from './RecipeList';
 
-export default function SearchRecipe() {
+export default function SearchIngredient() {
     const [search, setSearch] = useState('');
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -10,7 +11,7 @@ export default function SearchRecipe() {
         if (!search.trim()) return; // Prevent empty searches
         setLoading(true);
         try {
-            const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`);
+            const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch recipes');
             }

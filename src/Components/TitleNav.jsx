@@ -1,7 +1,29 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import SideBar from './SideBar';
+import { useState, useEffect } from 'react';
 
 export default function TitleNav() {
+    const navigate = useNavigate();
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(!!localStorage.getItem('idToken'));
+
+    const handleLogout = () => {
+        localStorage.removeItem('expiresIn');
+        localStorage.removeItem('idToken');
+        localStorage.removeItem('localId');
+        localStorage.removeItem('expiryTime');
+        setIsUserLoggedIn(false);
+        navigate('/');
+    };
+
+    useEffect(() => {
+        const token = localStorage.getItem('idToken');
+        setIsUserLoggedIn(!!token);
+    }, [localStorage.getItem('idToken')]); 
+
+    if (!isUserLoggedIn) {
+        return null;
+    }
+
     return (
         <div className='sticky top-0 z-20'>
             <div className="navbar bg-base-100">
@@ -27,27 +49,11 @@ export default function TitleNav() {
                                     <span className="badge">New</span>
                                 </a>
                             </li>
-                            <li><a>Logout</a></li>
+                            <li onClick={handleLogout}><a>Logout</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            {/* <div>
-                <div
-                    style={{  height: '64px' }}  // Define the height of the navbar
-                    className=" w-full flex justify-between items-center px-10 py-2 text-xl z-10 bg-neutral"
-                >
-                    <SideBar />
-
-                    <button>
-                        <div>
-                            <span className="material-symbols-outlined text-4xl">
-                                account_circle
-                            </span>
-                        </div>
-                    </button>
-                </div>
-            </div> */}
         </div>
     );
 }

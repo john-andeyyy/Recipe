@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 
 export default function SideBar() {
@@ -7,6 +8,15 @@ export default function SideBar() {
         document.getElementById('my-drawer').checked = false;
     };
 
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+    // Check if the token exists and update the state accordingly
+    useEffect(() => {
+        const token = localStorage.getItem('idToken');
+        if (token) {
+            setIsUserLoggedIn(true);
+        }
+    }, []);
 
 
     return (
@@ -22,7 +32,7 @@ export default function SideBar() {
                     </label>
                 </div>
 
-
+                {/* {isUserLoggedIn ? ("opem") : ('lock')} */}
 
                 <div className="drawer-side">
                     <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
@@ -33,6 +43,9 @@ export default function SideBar() {
                                 Reciepe web app
                             </h1>
                         </div>
+
+
+
                         <li className="flex items-center">
 
                             <Link to="/" onClick={closeDrawer}>Landing Page</Link>
@@ -44,6 +57,14 @@ export default function SideBar() {
 
                         <li className="flex items-center">
                             <Link to="/SearchRecipe" onClick={closeDrawer}>SearchRecipe</Link>
+                        </li>
+
+                        <li className="flex items-center">
+                            <Link to="/SearchLetter" onClick={closeDrawer}>By Letter</Link>
+                        </li>
+
+                        <li className="flex items-center">
+                            <Link to="/SearchIngredient" onClick={closeDrawer}>By Ingredients</Link>
                         </li>
                     </ul>
                 </div>
