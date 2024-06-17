@@ -15,6 +15,7 @@ function App() {
   const login = () => {
     localStorage.setItem('login', 'true');
     setIsLoggedIn(true);
+    
   };
 
   const logout = () => {
