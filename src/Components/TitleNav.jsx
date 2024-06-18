@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import SideBar from './SideBar';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 export default function TitleNav() {
     const navigate = useNavigate();
@@ -16,6 +15,10 @@ export default function TitleNav() {
         navigate('/');
     };
 
+    const myfavorite = ()=>{
+        navigate('/RecipeFavorite')
+    }
+
     useEffect(() => {
         const token = localStorage.getItem('idToken');
         setIsUserLoggedIn(!!token);
@@ -28,7 +31,9 @@ export default function TitleNav() {
                     <SideBar />
                 </div>
                 <div className="flex-none">
-
+                    <div className="dropdown dropdown-end">
+                        
+                    </div>
 
 
                     {isUserLoggedIn && (
@@ -41,9 +46,14 @@ export default function TitleNav() {
                             </div>
                             <ul tabIndex="0" className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                                 <li>
-                                    {/* <a className="justify-between"> */}
-                                        <Link to="/RecipeFavorite" >Favorites</Link>
-                                    {/* </a> */}
+                                    <a className="justify-between"
+                                    onClick={()=>{
+                                        myfavorite()
+                                    }}
+                                    >
+                                        <a >Favorites</a>
+                                        
+                                    </a>
                                 </li>
                                 <li onClick={handleLogout}><a>Logout</a></li>
                             </ul>
