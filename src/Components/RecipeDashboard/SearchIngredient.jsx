@@ -1,73 +1,74 @@
-
-import React, { useState } from 'react';
-import RecipeList from './RecipeList';
+import React, { useState, useEffect } from 'react';
+import ViewCategory from './ViewCategory';
+import { useNavigate } from 'react-router-dom';
 
 export default function SearchIngredient() {
-    const [search, setSearch] = useState('');
-    const [recipes, setRecipes] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const handleSearch = async () => {
-        if (!search.trim()) return; // Prevent empty searches
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+
+    const fetchCategories = async () => {
         setLoading(true);
+        setError(null);
         try {
-            const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`);
+            const response = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?c=list`);
             if (!response.ok) {
-                throw new Error('Failed to fetch recipes');
+                throw new Error('Failed to fetch categories');
             }
             const data = await response.json();
             if (data.meals) {
-                const newRecipes = data.meals.map(meal => ({
-                    id: meal.idMeal,
-                    image: meal.strMealThumb,
-                    title: meal.strMeal,
+                const newCategories = data.meals.map(meal => ({
+                    id: meal.idCategory,
+                    name: meal.strCategory,
                 }));
-                setRecipes(newRecipes);
+                setCategories(newCategories);
+
+                
             } else {
-                setRecipes([]);
+                setCategories([]);
             }
         } catch (error) {
-            console.error('Error fetching recipes:', error);
-            setRecipes([]);
+            console.error('Error fetching categories:', error);
+            setError('Failed to fetch categories');
         } finally {
             setLoading(false);
         }
     };
 
-    const handleChange = (event) => {
-        setSearch(event.target.value);
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const handleCategoryClick = (name) => {
+        // setSelectedCategory(category);
+        navigate('/ViewCategory', { state: { name: name } });
     };
 
     return (
-        <div id="body">
-            <div id="search" className='flex justify-center w-full'>
-                <label className="form-control w-full max-w-xs">
-                    <div className="label">
-                        <h1 className="text-xl font-semibold">Find Recipe</h1>
-                    </div>
-                    <input
-                        type="search"
-                        placeholder="Recipe keyword"
-                        className="input input-bordered w-full max-w-xs"
-                        value={search}
-                        onChange={handleChange}
-                    />
-                    <button
-                        className="btn btn-primary mt-2"
-                        onClick={handleSearch}
-                        disabled={loading}
-                    >
-                        Search
-                    </button>
-                </label>
-            </div>
-
-            <div className='flex flex-col items-center px-5 min-h-screen pt-'>
-                <div className='w-full max-w-7xl'>
-                    <div className="flex flex-wrap justify-center gap-4 py-5">
-                        <RecipeList recipes={recipes} loading={loading} />
-                    </div>
+        <div id="body" className="flex flex-col items-center px-5 min-h-screen pt-5">
+            <div className="w-full max-w-7xl">
+                {error && (
+                    <div className="text-center text-red-500">{error}</div>
+                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-5">
+                    {loading ? (
+                        <div className="col-span-full text-center">Loading...</div>
+                    ) : (
+                        categories.map((category, index) => (
+                            <button
+                                key={index}
+                                className="btn btn-secondary"
+                                onClick={() => handleCategoryClick(category.name)}
+                            >
+                                {category.name}
+                            </button>
+                        ))
+                    )}
                 </div>
+                {selectedCategory && <ViewCategory category={selectedCategory} />}
             </div>
         </div>
     );

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import RecipeList from './RecipeList';
 
 export default function SearchRecipe() {
+    localStorage.setItem('back', '/SearchRecipe')
     const [search, setSearch] = useState('');
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(false);

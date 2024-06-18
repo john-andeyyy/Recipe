@@ -43,11 +43,18 @@ export default function RecipeSingleView() {
         )
     }
 
+    const backbutton = () =>{
+        const back = localStorage.getItem('back')
+
+        navigate(back)
+
+    }
+
     return (
         <div className="p-4">
             <button className="btn bg-neutral py-0 px-5 mb-2"
                 onClick={() => {
-                    navigate('/dashboard')
+                   backbutton()
                 }}
             >Back</button>
 

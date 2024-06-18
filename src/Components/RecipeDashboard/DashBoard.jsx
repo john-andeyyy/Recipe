@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import RecipeList from './RecipeList';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
+    localStorage.setItem('back', '/Dashboard')
+    const navigate = useNavigate()
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    
     const fetchRandomRecipe = async () => {
         try {
             const response = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
@@ -56,6 +59,7 @@ export default function Dashboard() {
                         <RecipeList recipes={recipes} loading={loading} />
                     )}
                 </div>
+                    
             </div>
         </div>
     );

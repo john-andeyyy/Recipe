@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import RecipeList from './RecipeList';
 
 export default function SearchLetter() {
+  localStorage.setItem('back', '/SearchLetter')
+
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [recipes, setRecipes] = useState([]);
 
   const handleLetterClick = async (letter) => {
     setSearch(letter);
-    await handleSearch(letter); // Pass the letter to handleSearch function
+    await handleSearch(letter);
   };
 
   const handleSearch = async (letter) => {

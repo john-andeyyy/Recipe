@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 export default function SingleRecipe({ recipe }) {
     const navigate = useNavigate();
 
+    
+
     const handleClick = () => {
         navigate('/RecipeSingleView', { state: { id: recipe.id } });
     };
@@ -17,7 +19,6 @@ export default function SingleRecipe({ recipe }) {
                     </figure>
                     <div className="card-body p-4">
                         <h2 className="card-title text-lg dark:text-white">{recipe.title}</h2>
-                        {/* Add more details as needed */}
                     </div>
                 </div>
             </div>

@@ -8,6 +8,7 @@ import Login from './Components/Pages/Login';
 import Signup from './Components/Pages/Signup';
 import SearchLetter from './Components/RecipeDashboard/SearchLetter';
 import SearchIngredient from './Components/RecipeDashboard/SearchIngredient';
+import ViewCategory from './Components/RecipeDashboard/ViewCategory';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/Signup" element={<Signup />} />
           <Route path="/SearchLetter" element={<SearchLetter/>} />
           <Route path="/SearchIngredient" element={<SearchIngredient/>} />
+          <Route path="/ViewCategory" element={<ViewCategory/>} />
         </Routes>
       </Router>
     </div>
