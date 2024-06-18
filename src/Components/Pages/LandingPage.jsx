@@ -34,7 +34,7 @@ export default function LandingPage() {
                     // Alert user and navigate to login page
                     alert("Session Expired. Please Login Again");
 
-                    navigate('/Login');
+                    navigate('/');
                 }
             }, 1000);
 

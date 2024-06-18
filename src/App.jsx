@@ -9,6 +9,7 @@ import Signup from './Components/Pages/Signup';
 import SearchLetter from './Components/RecipeDashboard/SearchLetter';
 import SearchIngredient from './Components/RecipeDashboard/SearchIngredient';
 import ViewCategory from './Components/RecipeDashboard/ViewCategory';
+import RecipeFavorite from './Components/RecipeDashboard/RecipeFavorite';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/SearchLetter" element={<SearchLetter/>} />
           <Route path="/SearchIngredient" element={<SearchIngredient/>} />
           <Route path="/ViewCategory" element={<ViewCategory/>} />
+          <Route path="/RecipeFavorite" element={<RecipeFavorite/>} />
         </Routes>
       </Router>
     </div>

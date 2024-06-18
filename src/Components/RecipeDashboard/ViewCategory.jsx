@@ -47,11 +47,13 @@ export default function ViewCategory({ category }) {
 
     return (
         <div id="body">
-            <button className='fixed top-20'
+            <button className='fixed top-20 btn bg-neutral py-0 px-5 mb-2'
                 onClick={
                     () => { navigate('/SearchIngredient') }
                 }
             >Back</button>
+
+            
             <div className='flex flex-col items-center px-5 min-h-screen pt-5'>
                 <div className='w-full max-w-7xl'>
                     {error && (

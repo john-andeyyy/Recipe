@@ -5,7 +5,13 @@ export default function RecipeSingleView() {
     const location = useLocation();
     const { id } = location.state;
     const [recipe, setRecipe] = useState(null);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [favorites, setFavorites] = useState([]);
     const navigate = useNavigate();
+
+    const localid = localStorage.getItem('localId');
+    const dburl = import.meta.env.VITE_FIREBASE_DB_URL;
+    const favoritesURL = `${dburl}/Recipe/${localid}/my-favorite.json`;
 
     useEffect(() => {
         const fetchRecipeById = async () => {
@@ -30,34 +36,109 @@ export default function RecipeSingleView() {
             }
         };
 
+        const fetchFavorites = async () => {
+            try {
+                const response = await fetch(favoritesURL);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch favorites');
+                }
+                const data = await response.json();
+
+                const favoritesArray = data ? Object.entries(data).map(function (entry) {
+                    const key = entry[0];
+                    const value = entry[1];
+                    return { key: key, ...value };
+                }) : [];
+                
+                setFavorites(favoritesArray);
+                setIsFavorite(favoritesArray.some(fav => fav.id === id));
+            } catch (error) {
+                console.error('Error fetching favorites:', error);
+            }
+        };
+
         if (id) {
             fetchRecipeById();
+            fetchFavorites();
         }
-    }, [id]);
+    }, [id, favoritesURL]);
 
     if (!recipe) {
         return (
             <div className="flex justify-center w-full">
                 <span className="loading loading-spinner loading-lg"></span>
             </div>
-        )
+        );
     }
 
-    const backbutton = () =>{
-        const back = localStorage.getItem('back')
+    const backbutton = function () {
+        const back = localStorage.getItem('back');
+        navigate(back);
+    };
 
-        navigate(back)
+    const addFavorites = function (recipe) {
+        const userData = {
+            id: recipe.id,
+            title: recipe.title,
+        };
+        try {
+            fetch(favoritesURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Data successfully added:", data);
+                    setFavorites(prevFavorites => [...prevFavorites, { key: data.name, ...userData }]);
+                    setIsFavorite(true);
+                })
+                .catch(error => {
+                    console.error("Error adding data:", error);
+                });
+        } catch (error) {
+            console.error("Error adding data:", error);
+        }
+    };
 
-    }
+    const removeFavorites = function (idToRemove) {
+        const favoriteToRemove = favorites.find(function (fav) {
+            return fav.id === idToRemove;
+        });
+
+        try {
+            fetch(`${dburl}/Recipe/${localid}/my-favorite/${favoriteToRemove.key}.json`, {
+                method: 'DELETE',
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok.');
+                    }
+                    setFavorites(prevFavorites => {
+                        return prevFavorites.filter(function (fav) {
+                            return fav.id !== idToRemove;
+                        });
+                    });
+                    setIsFavorite(false);
+                })
+                .catch(error => {
+                    console.error("Error removing data:", error);
+                });
+        } catch (error) {
+            console.error("Error removing data:", error);
+        }
+    };
 
     return (
         <div className="p-4">
-            <button className="btn bg-neutral py-0 px-5 mb-2"
-                onClick={() => {
-                   backbutton()
-                }}
-            >Back</button>
-
+            <button className="btn bg-neutral py-0 px-5 mb-2" onClick={backbutton}>Back</button>
             <div className="flex flex-col items-center mt-8">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">{recipe.title}</h1>
                 <div className="w-full max-w-3xl mb-4 flex justify-center">
@@ -74,7 +155,15 @@ export default function RecipeSingleView() {
                         </div>
                     )}
                     <div>
-                        <button className="btn btn-neutral">Add to Favorites</button>
+                        {isFavorite ? (
+                            <button className="btn btn-neutral" onClick={() => removeFavorites(recipe.id)}>
+                                Remove from Favorites
+                            </button>
+                        ) : (
+                            <button className="btn btn-neutral" onClick={() => addFavorites(recipe)}>
+                                Add to Favorites
+                            </button>
+                        )}
                     </div>
                 </div>
                 <div className="w-full max-w-3xl text-center">
