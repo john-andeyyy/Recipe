@@ -9,11 +9,11 @@ export default function Meal({ recipe, addFavorites, removeFavorites, isFavorite
 
       <div className="flex flex-col items-center mt-8">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">{recipe.title}</h1>
-        <div className="w-full max-w-3xl mb-4 flex justify-center">
+        <div className="w-full max-w-3xl mb-4 flex justify-center ">
           <img
             src={recipe.image}
             alt={recipe.title}
-            className="w-[22rem] h-[22rem] object-cover rounded-lg shadow-lg"
+            className="w-[22rem] h-[22rem] rounded-lg shadow-lg "
           />
         </div>
         <div className="w-full max-w-3xl flex justify-between mb-4">

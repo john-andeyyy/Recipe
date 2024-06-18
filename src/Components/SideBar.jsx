@@ -36,8 +36,7 @@ export default function SideBar() {
             )}
             <div
                 ref={sidebarRef}
-                className={`flex text-center fixed top-0 left-0 h-full bg-base-200 text-base-content w-60 transition-transform
-                    ${isSidebarOpen ? 'transform-none' : '-translate-x-full'
+                className={`flex text-center fixed top-0 left-0 h-full bg-base-200 text-base-content w-60 transition-transform ${isSidebarOpen ? 'transform-none' : '-translate-x-full'
                     } md:translate-x-0`}
             >
                 <div className="p-4 space-y-5 sidebar-content">
@@ -91,7 +90,7 @@ export default function SideBar() {
                 </div>
             </div>
 
-            <div className="md:hidden ">
+            <div className="md:hidden p-4">
                 <button onClick={toggleSidebar} className="btn-primary text-normal cursor-pointer">
                     <span className="material-symbols-outlined text-white text-4xl">
                         {isSidebarOpen ? 'close' : 'menu'}

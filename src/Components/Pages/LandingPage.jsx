@@ -32,16 +32,16 @@ export default function LandingPage() {
                     clearInterval(interval);
 
                     // Alert user and navigate to login page
-                    alert("Session Expired. Please Login Again");
+                    // alert("Session Expired. Please Login Again");
 
-                    navigate('/');
+                    navigate('/Dashboard');
                 }
             }, 1000);
 
             // Clean up interval on component unmount
             return () => clearInterval(interval);
         } else {
-            // navigate('/Dashboard');
+            navigate('/');
 
         }
     }, []);

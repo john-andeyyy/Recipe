@@ -22,10 +22,12 @@ export default function TitleNav() {
         navigate('/RecipeFavorite');
     };
 
+
     useEffect(() => {
         const token = localStorage.getItem('idToken');
         setIsUserLoggedIn(!!token);
-    }, []);
+    }, [localStorage.getItem('idToken')]);
+
 
     useEffect(() => {
         const handleOutsideClick = (e) => {
@@ -33,7 +35,7 @@ export default function TitleNav() {
                 setIsDropdownOpen(false);
             }
         };
-
+        
         document.addEventListener('mousedown', handleOutsideClick);
         return () => document.removeEventListener('mousedown', handleOutsideClick);
     }, [isDropdownOpen]);
@@ -43,7 +45,7 @@ export default function TitleNav() {
     return (
         <div className='sticky top-0 z-20'>
             <div className="navbar bg-base-100">
-                <SideBar />
+    <SideBar />
                 <div className="flex-1">
                     {/* <h1 className="text-xl font-bold">Recipe Web App</h1> */}
                 </div>
@@ -61,7 +63,7 @@ export default function TitleNav() {
                                 </div>
                             </div>
                             {isDropdownOpen && (
-                                <ul tabIndex="0" className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                                <ul tabIndex="0" className="menu menu-sm dropdown-content   p-2 shadow bg-base-100 rounded-box w-52">
                                     <li>
                                         <a className="justify-between" onClick={myfavorite}>
                                             Favorites
