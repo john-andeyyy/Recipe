@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import RecipeList from './RecipeList';
+import RecipeList from '../RecipeDashboard/RecipeList';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function ViewCategory({ category }) {
@@ -47,7 +47,7 @@ export default function ViewCategory({ category }) {
 
     return (
         <div id="body">
-            <button className='fixed top-20 btn bg-neutral py-0 px-5 mb-2'
+            <button className='ml-3 top-20 btn bg-neutral py-0 px-5 mb-2'
                 onClick={
                     () => { navigate('/SearchIngredient') }
                 }

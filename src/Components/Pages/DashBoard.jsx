@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import RecipeList from './RecipeList';
+import RecipeList from '../RecipeDashboard/RecipeList';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {

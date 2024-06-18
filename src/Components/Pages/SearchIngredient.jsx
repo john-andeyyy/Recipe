@@ -6,8 +6,10 @@ export default function SearchIngredient() {
     const navigate = useNavigate();
 
     const [categories, setCategories] = useState([]);
+    const [filteredCategories, setFilteredCategories] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
 
     const fetchCategories = async () => {
@@ -25,10 +27,10 @@ export default function SearchIngredient() {
                     name: meal.strCategory,
                 }));
                 setCategories(newCategories);
-
-                
+                setFilteredCategories(newCategories);
             } else {
                 setCategories([]);
+                setFilteredCategories([]);
             }
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -43,21 +45,40 @@ export default function SearchIngredient() {
     }, []);
 
     const handleCategoryClick = (name) => {
-        // setSelectedCategory(category);
         navigate('/ViewCategory', { state: { name: name } });
+    };
+
+    const handleSearchChange = (e) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+        const filtered = categories.filter(category =>
+            category.name.toLowerCase().includes(query.toLowerCase())
+        );
+        setFilteredCategories(filtered);
     };
 
     return (
         <div id="body" className="flex flex-col items-center px-5 min-h-screen pt-5">
             <div className="w-full max-w-7xl">
-                {error && (
-                    <div className="text-center text-red-500">{error}</div>
-                )}
+                
+                <div className="px-3">
+                    <h1 className="text-4xl font-semibold">Select Category</h1>
+                </div>
+
+                <div className="py-5 w-full flex justify-center">
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        placeholder="Search categories..."
+                        className="input input-bordered w-full max-w-md"
+                    />
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-5">
                     {loading ? (
                         <div className="col-span-full text-center">Loading...</div>
                     ) : (
-                        categories.map((category, index) => (
+                        filteredCategories.map((category, index) => (
                             <button
                                 key={index}
                                 className="btn btn-secondary"

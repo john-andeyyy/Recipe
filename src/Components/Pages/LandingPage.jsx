@@ -60,23 +60,3 @@ export default function LandingPage() {
         </div>
     )
 }
-
-// export default function LandingPage() {
-//     const { name, age, address, birthday, sex } = useSelector((state) => state.userInfo);
-//     const dispatch = useDispatch();
-
-
-//     const handleNameChange = (e) => {
-//         dispatch(setName(e.target.value));
-//     };
-//     return (
-//         <div>
-//             <div className='text-white'>
-//                 <label>Name:</label>
-//                 <input type="text" value={name} onChange={handleNameChange} />
-//             </div>
-            
-//             <h1>name:{name}</h1>
-//         </div>
-//     )
-// }

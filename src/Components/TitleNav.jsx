@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import SideBar from './SideBar';
 import { useState, useEffect } from 'react';
+import SideBar from './SideBar';
 
 export default function TitleNav() {
     const navigate = useNavigate();
@@ -15,9 +15,9 @@ export default function TitleNav() {
         navigate('/');
     };
 
-    const myfavorite = ()=>{
-        navigate('/RecipeFavorite')
-    }
+    const myfavorite = () => {
+        navigate('/RecipeFavorite');
+    };
 
     useEffect(() => {
         const token = localStorage.getItem('idToken');
@@ -27,17 +27,12 @@ export default function TitleNav() {
     return (
         <div className='sticky top-0 z-20'>
             <div className="navbar bg-base-100">
+            <SideBar/>
                 <div className="flex-1">
-                    <SideBar />
+                    {/* <h1 className="text-xl font-bold">Rec   ipe Web App</h1> */}
                 </div>
                 <div className="flex-none">
-                    <div className="dropdown dropdown-end">
-                        
-                    </div>
-
-
                     {isUserLoggedIn && (
-
                         <div className="dropdown dropdown-end">
                             <div tabIndex="0" role="button" className="btn btn-ghost btn-circle avatar">
                                 <div className="w-10 rounded-full">
@@ -46,22 +41,14 @@ export default function TitleNav() {
                             </div>
                             <ul tabIndex="0" className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                                 <li>
-                                    <a className="justify-between"
-                                    onClick={()=>{
-                                        myfavorite()
-                                    }}
-                                    >
-                                        <a >Favorites</a>
-                                        
+                                    <a className="justify-between" onClick={myfavorite}>
+                                        Favorites
                                     </a>
                                 </li>
                                 <li onClick={handleLogout}><a>Logout</a></li>
                             </ul>
                         </div>
                     )}
-
-
-
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import RecipeList from './RecipeList';
+import RecipeList from '../RecipeDashboard/RecipeList';
 
 export default function SearchRecipe() {
     localStorage.setItem('back', '/SearchRecipe')
@@ -40,11 +40,11 @@ export default function SearchRecipe() {
 
     return (
         <div id="body">
+            <div className="p-5">
+                <h1 className="text-4xl font-semibold">Find Recipe</h1>
+            </div>
             <div id="search" className='flex justify-center w-full'>
                 <label className="form-control w-full max-w-xs">
-                    <div className="label">
-                        <h1 className="text-xl font-semibold">Find Recipe</h1>
-                    </div>
                     <input
                         type="search"
                         placeholder="Recipe keyword"
@@ -62,13 +62,17 @@ export default function SearchRecipe() {
                 </label>
             </div>
 
-            <div className='flex flex-col items-center px-5 min-h-screen pt-'>
-                <div className='w-full max-w-7xl'>
+            <div className="flex flex-wrap justify-center gap-4 py-5">
+                {loading ? (
+                    <span className="loading loading-spinner loading-lg"></span>
+                ) : (
                     <div className="flex flex-wrap justify-center gap-4 py-5">
                         <RecipeList recipes={recipes} loading={loading} />
                     </div>
-                </div>
+                )}
             </div>
+
+
         </div>
     );
 }
