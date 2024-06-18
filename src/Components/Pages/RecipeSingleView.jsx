@@ -11,6 +11,10 @@ export default function RecipeSingleView() {
     const [favorites, setFavorites] = useState([]);
     const navigate = useNavigate();
 
+    // check if the user login
+    const userlogin = localStorage.getItem('idToken')
+
+
     const localid = localStorage.getItem('localId');
     const dburl = import.meta.env.VITE_FIREBASE_DB_URL;
     const favoritesURL = `${dburl}/Recipe/${localid}/my-favorite.json`;
@@ -140,7 +144,9 @@ export default function RecipeSingleView() {
 
     return (
         <div className="p-4">
-            <button className="btn bg-neutral py-0 px-5 mb-2" onClick={backbutton}>Back</button>
+            {userlogin && (
+                <button className="btn bg-neutral py-0 px-5 mb-2" onClick={backbutton}>Back</button>
+            )}
             <Meal
                 recipe={recipe}
                 addFavorites={addFavorites}

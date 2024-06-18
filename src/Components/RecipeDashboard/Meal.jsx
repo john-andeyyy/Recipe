@@ -1,7 +1,8 @@
 import React from 'react'
 
 export default function Meal({ recipe, addFavorites, removeFavorites, isFavorite }) {
-  
+
+  const userlogin = localStorage.getItem('idToken')
   return (
     <div id="body">
 
@@ -22,15 +23,22 @@ export default function Meal({ recipe, addFavorites, removeFavorites, isFavorite
             </div>
           )}
           <div>
-            {isFavorite ? (
-              <button className="btn btn-neutral" onClick={() => removeFavorites(recipe.id)}>
-                Remove from Favorites
-              </button>
-            ) : (
-              <button className="btn btn-neutral" onClick={() => addFavorites(recipe)}>
-                Add to Favorites
-              </button>
+
+            {userlogin && (
+              <div>
+                {isFavorite ? (
+                  <button className="btn btn-neutral" onClick={() => removeFavorites(recipe.id)}>
+                    Remove from Favorites
+                  </button>
+                ) : (
+                  <button className="btn btn-neutral" onClick={() => addFavorites(recipe)}>
+                    Add to Favorites
+                  </button>
+                )}
+
+              </div>
             )}
+
           </div>
         </div>
         <div className="w-full max-w-3xl text-center">
