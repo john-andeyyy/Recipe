@@ -1,12 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 
 export default function SideBar() {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(!!localStorage.getItem('idToken'));
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-    const closeDrawer = () => setIsSidebarOpen(false);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -16,11 +13,24 @@ export default function SideBar() {
         return () => clearInterval(interval);
     }, []);
 
+    useEffect(() => {
+        const handleOutsideClick = (e) => {
+            if (isSidebarOpen && !e.target.closest('.sidebar-content')) {
+                setIsSidebarOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleOutsideClick);
+        return () => document.removeEventListener('mousedown', handleOutsideClick);
+    }, [isSidebarOpen]);
+
+    const closeDrawer = () => setIsSidebarOpen(false);
+    const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
     return (
         <div className="text-white flex z-30">
-            {/* Sidebar */}
-            <div className={` flex text-center fixed top-0 left-0 h-full bg-base-200 text-base-content w-60 transition-transform ${isSidebarOpen ? 'transform-none' : '-translate-x-full'} md:translate-x-0`}>
-                <div className="p-4 space-y-5 ">
+            <div className={`flex text-center fixed top-0 left-0 h-full bg-base-200 text-base-content w-60 transition-transform ${isSidebarOpen ? 'transform-none' : '-translate-x-full'} md:translate-x-0`}>
+                <div className="p-4 space-y-5 sidebar-content">
                     <div id="title" className="py-3 text-center font-semibold">
                         <h1>Recipe web app</h1>
                     </div>
@@ -57,7 +67,7 @@ export default function SideBar() {
                 </div>
             </div>
 
-            {/* Toggle button */}
+
             <div className="md:hidden p-4">
                 <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="btn-primary text-normal cursor-pointer">
                     <span className="material-symbols-outlined text-white text-4xl">
@@ -65,6 +75,7 @@ export default function SideBar() {
                     </span>
                 </button>
             </div>
+
         </div>
     );
 }
