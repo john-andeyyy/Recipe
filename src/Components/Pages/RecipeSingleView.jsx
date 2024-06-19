@@ -13,11 +13,12 @@ export default function RecipeSingleView() {
 
     // check if the user login
     const userlogin = localStorage.getItem('idToken')
+    const idToken = localStorage.getItem('idToken')
 
 
     const localid = localStorage.getItem('localId');
     const dburl = import.meta.env.VITE_FIREBASE_DB_URL;
-    const favoritesURL = `${dburl}/Recipe/${localid}/my-favorite.json`;
+    const favoritesURL = `${dburl}/favorites/${localid}.json?auth=${idToken}`;
 
     useEffect(() => {
         const fetchRecipeById = async () => {
@@ -120,7 +121,9 @@ export default function RecipeSingleView() {
         });
 
         try {
-            fetch(`${dburl}/Recipe/${localid}/my-favorite/${favoriteToRemove.key}.json`, {
+            fetch(`${dburl}/favorites/${localid}/${favoriteToRemove.key}.json?auth=${idToken}`, {
+
+
                 method: 'DELETE',
             })
                 .then(response => {

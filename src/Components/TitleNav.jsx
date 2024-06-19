@@ -52,7 +52,7 @@ export default function TitleNav() {
                 </div>
                 <div className="flex-none">
                     {isUserLoggedIn && (
-                        <div className="dropdown dropdown-end">
+                        <div className="dropdown dropdown-end ">
                             <div
                                 tabIndex="0"
                                 role="button"
@@ -64,13 +64,13 @@ export default function TitleNav() {
                                 </div>
                             </div>
                             {isDropdownOpen && (
-                                <ul tabIndex="0" className="menu menu-sm dropdown-content   p-2 shadow bg-base-100 rounded-box w-52">
+                                <ul tabIndex="0" className="menu menu-sm dropdown-content p-2 shadow-sm bg-base-200 rounded-box w-52 ">
                                     <li>
                                         <a className="justify-between" onClick={myfavorite}>
                                             Favorites
                                         </a>
                                     </li>
-                                    <li onClick={handleLogout}><a>Logout</a></li>
+                                    <li onClick={handleLogout} className='text-red-500  rounded-lg'><a>Logout</a></li>
                                 </ul>
                             )}
                         </div>

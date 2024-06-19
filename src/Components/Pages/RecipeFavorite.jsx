@@ -13,7 +13,13 @@ const RecipeFavorite = () => {
       try {
         const dburl = import.meta.env.VITE_FIREBASE_DB_URL;
         const localid = localStorage.getItem('localId');
-        const favoritesURL = `${dburl}/Recipe/${localid}/my-favorite.json`;
+        
+        const idToken = localStorage.getItem('idToken');
+
+        const favoritesURL = `${dburl}/favorites/${localid}/.json?auth=${idToken}`;
+
+        
+
 
         const response = await fetch(favoritesURL);
         if (!response.ok) {
