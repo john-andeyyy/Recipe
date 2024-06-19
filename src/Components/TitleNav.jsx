@@ -12,6 +12,7 @@ export default function TitleNav() {
         localStorage.removeItem('idToken');
         localStorage.removeItem('localId');
         localStorage.removeItem('expiryTime');
+        localStorage.removeItem('back')
         setIsUserLoggedIn(false);
         setIsDropdownOpen(false);
         navigate('/');

@@ -7,6 +7,48 @@ export default function Dashboard() {
     const navigate = useNavigate()
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
+
+
+
+
+
+
+    useEffect(() => {
+        const idToken = localStorage.getItem('idToken');
+
+        // Check if idToken exists in localStorage
+        if (idToken) {
+
+
+            // Set interval to check expiry
+            const interval = setInterval(() => {
+                const currentTime = new Date();
+                const storedExpiryTime = new Date(localStorage.getItem('expiryTime'));
+                // const storedExpiryTime = new Date(10);
+
+                if (currentTime >= storedExpiryTime) {
+                    // Clear localStorage items and interval
+                    localStorage.removeItem('expiresIn');
+                    localStorage.removeItem('idToken');
+                    localStorage.removeItem('localId');
+                    localStorage.removeItem('expiryTime');
+                    clearInterval(interval);
+
+                    // Alert user and navigate to login page
+                    // alert("Session Expired. Please Login Again");
+
+                    navigate('/Dashboard');
+                }
+            }, 1000);
+
+            // Clean up interval on component unmount
+            return () => clearInterval(interval);
+        } else {
+            navigate('/Login');
+
+        }
+    }, []);
+
     
     const fetchRandomRecipe = async () => {
         try {
