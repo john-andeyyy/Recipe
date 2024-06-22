@@ -101,7 +101,6 @@ export default function Dashboard() {
                         <RecipeList recipes={recipes} loading={loading} />
                     )}
                 </div>
-                    
             </div>
         </div>
     );

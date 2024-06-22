@@ -13,6 +13,7 @@ export default function SingleRecipe({ recipe }) {
                 <div className="card-body p-4">
                     <h2 className="card-title text-lg dark:text-white">{recipe.title}</h2>
                 </div>
+
             </div>
         </div>
     );

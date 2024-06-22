@@ -18,9 +18,6 @@ const RecipeFavorite = () => {
 
         const favoritesURL = `${dburl}/favorites/${localid}/.json?auth=${idToken}`;
 
-        
-
-
         const response = await fetch(favoritesURL);
         if (!response.ok) {
           throw new Error('Failed to fetch favorites');
